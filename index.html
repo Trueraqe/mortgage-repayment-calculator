@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            "lime": "hsl(61,70%,52%)",
+            "red": "hsl(4,69%,50%)",
+            "white": "hsl(0,0%,100%)",
+            "slate-100": "hsl(202,86%,94%)",
+            "slate-300": "hsl(203,41%,72%)",
+            "slate-500": "hsl(200,26%,54%)",
+            "slate-700": "hsl(200,24%,40%)",
+            "slate-900": "hsl(202,55%,16%)"
+          }
+        }
+      }
+    }
+  </script>
+  
+  <title>Frontend Mentor | Mortgage repayment calculator</title>
+
+  <style>
+    .attribution { font-size: 0.6875rem; text-align: center;}
+    .attribution a { color: hsl(228, 45%, 44%); }
+  </style>
+</head>
+<body class="flex flex-col md:bg-slate-100 items-center justify-center p-5">
+
+  <div class="bg-white md:rounded-[20px]">
+
+    <div class="grid grid-cols-1 md:grid-cols-[1fr_1fr] max-w-4xl shadow-xl md:rounded-[20px]">
+      
+      <!-- LEFT COLUMN -->
+      <div class="grid bg-white h-full p-8 md:rounded-l-[20px]">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xl font-bold text-slate-900">Mortgage Calculator</h2>
+          <button class="text-md text-slate-700 font-bold underline" type="button" id="clear-button">Clear All</button>
+        </div>
+
+          <form>
+            <div class="flex flex-col mt-6" id="mortgage-amount-container">
+              <label class="text-slate-700 font-bold" for="mortgage-amount">Mortgage Amount</label>
+              <div class="group flex overflow-hidden rounded-md border-2 border-slate-500 items-center mt-2 focus-within:border-lime hover:border-lime" id="mortgage-amount-border">
+                <span class="bg-slate-300 p-[10px] w-[35px] font-bold text-slate-700 group-focus-within:bg-lime group-focus-within:text-slate-700" id="mortgage-amount-value">£</span><input class="min-w-0 flex-1 p-2 font-bold text-slate-900 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" type="number" id="mortgage-amount">
+              </div>
+              <div class="flex flex-col text-red text-sm mt-1 font-bold" id="mortgage-amount-error"></div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-9 mt-4">
+              <div id="mortgage-term-container">
+              <label class="text-slate-700 font-bold" for="mortgage-term">Mortgage Term</label>
+                <div class="group flex overflow-hidden rounded-md border-2 border-slate-500 mt-2 focus-within:border-lime hover:border-lime" id="mortgage-term-border">
+                  <input class="min-w-0 flex-1 p-2 font-bold text-slate-900 outline-none
+                  [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" type="number" id="mortgage-term">
+                  <span class="bg-slate-300 p-[10px] font-bold text-slate-700 group-focus-within:bg-lime group-focus-within:text-slate-700" id="mortgage-term-value">years</span>
+                </div>
+                <div class="flex flex-col text-red text-sm mt-1 font-bold" id="mortgage-term-error"></div>
+              </div>
+
+                <div id="interest-rate-container">
+                  <label class="text-slate-700 font-bold" for="interest-rate">Interest Rate</label>
+                  <div class="group flex overflow-hidden rounded-md border-2 border-slate-500 mt-2 focus-within:border-lime hover:border-lime" id="interest-rate-border">
+                    <input class="min-w-0 flex-1 p-2 font-bold text-slate-900 outline-none [appearance:textfield] 
+                    [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" type="number" id="interest-rate" step="0.1">
+                    <span class="bg-slate-300 p-[10px] font-bold text-slate-700 group-focus-within:bg-lime group-focus-within:text-slate-700" id="interest-rate-value">%</span>
+                  </div>
+                  <div class="flex flex-col text-red text-sm mt-1 font-bold" id="interest-rate-error"></div>
+                </div>
+            </div>
+
+          <div class="flex flex-col mt-4">
+            <label class="text-slate-700 font-bold mb-2" for="mortgage-type">Mortgage Type</label>
+            <div class="border-2 border-slate-500 rounded-md p-2 mb-2 font-bold text-slate-900 hover:border-lime focus-within:border-lime focus-within:bg-[hsl(61,70%,92%)]">
+              <input type="radio" id="mortgage-type-1" name="mortgage-type" value="repayment"><span class="ml-3">Repayment</span>
+            </div>
+            <div class="border-2 border-slate-500 rounded-md p-2 font-bold text-slate-900 hover:border-lime focus-within:border-lime focus-within:bg-[hsl(61,70%,92%)]">
+              <input type="radio" id="mortgage-type-2" name="mortgage-type" value="interest-only"><span class="ml-3">Interest Only</span>
+            </div>
+          </div>
+          <div class="flex flex-col text-red text-sm mt-1 font-bold" id="mortgage-type-error"></div>
+
+          <button class="bg-lime font-bold text-slate-900 rounded-[50px] w-[80%] justify-center items-center gap-2 flex p-4 mt-8" type="button" id="calculate-button"><img class="mr-2" src="assets/images/icon-calculator.svg" alt="icon-calculator">Calculate Repayments</button>
+          </form>
+      </div>
+
+
+      <!-- RIGHT COLUMN -->
+      <div class="grid bg-slate-900 text-[hsl(202,86%,94%)] h-full p-5 md:rounded-r-[20px] md:rounded-bl-[80px]">
+        <div class="flex flex-col items-center justify-center h-full text-center p-5" id="results">
+          <img src="assets/images/illustration-empty.svg" alt="illustration-empty" width="150px">
+          <h1 class="font-bold text-lg pb-2">Results shown here</h1>
+          <p class="font-bold text-sm text-[hsl(200,24%,40%)]">Complete the form and click “calculate repayments” to see what your monthly repayments would be.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="attribution">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>. 
+    Coded by <a href="#">Truerage</a>.
+  </footer>
+
+</body>
+  <script>
+    const calculateButton = document.getElementById('calculate-button');
+    const mortgageAmountInput = document.getElementById('mortgage-amount');
+    const mortgageTermInput = document.getElementById('mortgage-term');
+    const interestRateInput = document.getElementById('interest-rate');
+    const mortgageTypeInputs = document.getElementsByName('mortgage-type');
+    
+    const resultsDiv = document.getElementById('results');
+    const clearButton = document.getElementById('clear-button');
+
+    const mortgageAmountBorder = document.getElementById('mortgage-amount-border');
+    const mortgageAmountValue = document.getElementById('mortgage-amount-value');
+    const mortgageAmountError = document.getElementById('mortgage-amount-error');
+
+    const mortgageTermBorder = document.getElementById('mortgage-term-border');
+    const mortgageTermValue = document.getElementById('mortgage-term-value');
+    const mortgageTermError = document.getElementById('mortgage-term-error');
+
+    const interestRateBorder = document.getElementById('interest-rate-border');
+    const interestRateValue = document.getElementById('interest-rate-value');
+    const interestRateError = document.getElementById('interest-rate-error');
+
+    const mortgageTypeError = document.getElementById('mortgage-type-error');
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+    const inputs = document.querySelectorAll('input[name="mortgage-type"]');
+
+    inputs.forEach(input => {
+      input.addEventListener('change', () => {
+        inputs.forEach(i => i.parentElement.classList.remove('border-lime', 'bg-[hsl(61,70%,92%)]'));
+
+        if (input.checked) {
+          input.parentElement.classList.add('border-lime', 'bg-[hsl(61,70%,92%)]');
+        }
+        });
+      });
+    });
+
+
+    clearButton.addEventListener('click', () => {
+      mortgageAmountInput.value = '';
+      mortgageTermInput.value = '';
+      interestRateInput.value = '';
+      for (const input of mortgageTypeInputs) {
+        input.checked = false;
+      }
+      const inputs = document.querySelectorAll('input[name="mortgage-type"]');
+      inputs.forEach(input => input.parentElement.classList.remove('border-lime', 'bg-[hsl(61,70%,92%)]'));
+      
+      mortgageAmountBorder.classList.remove('border-red');
+      mortgageAmountValue.classList.remove('bg-red',"text-white");
+      mortgageAmountError.textContent = '';
+
+      mortgageTermBorder.classList.remove('border-red');
+      mortgageTermValue.classList.remove('bg-red',"text-white");
+      mortgageTermError.textContent = '';
+
+      interestRateBorder.classList.remove('border-red');
+      interestRateValue.classList.remove('bg-red',"text-white");
+      interestRateError.textContent = '';
+
+      mortgageTypeError.textContent = '';
+
+      resultsDiv.innerHTML = `
+        <img src="assets/images/illustration-empty.svg" alt="illustration-empty" width="150px">
+        <h1 class="font-bold text-lg pb-2">Results shown here</h1>
+        <p class="font-bold text-sm text-[hsl(200,24%,40%)]">Complete the form and click “calculate repayments” to see what your monthly repayments would be.</p>
+      `;
+    });
+
+    
+    calculateButton.addEventListener('click', () => {
+      const mortgageAmount = parseFloat(mortgageAmountInput.value);
+      const mortgageTerm = parseFloat(mortgageTermInput.value);
+      const interestRate = parseFloat(interestRateInput.value) / 100;
+      let mortgageType;
+
+      for (const input of mortgageTypeInputs) {
+        if (input.checked) {
+          mortgageType = input.value;
+          break;
+        }
+      }
+
+      if (isNaN(mortgageAmount) || isNaN(mortgageTerm) || isNaN(interestRate) || !mortgageType) {
+
+        if (isNaN(mortgageAmount)) {
+          mortgageAmountBorder.classList.add('border-red');
+          mortgageAmountValue.classList.add('bg-red',"text-white");
+          mortgageAmountError.textContent = 'This field is required';
+        }
+        else {
+          mortgageAmountBorder.classList.remove('border-red');
+          mortgageAmountValue.classList.remove('bg-red',"text-white");
+          mortgageAmountError.textContent = '';
+        }
+        if (isNaN(mortgageTerm)) {
+          mortgageTermBorder.classList.add('border-red');
+          mortgageTermValue.classList.add('bg-red',"text-white");
+          mortgageTermError.textContent = 'This field is required';
+        }
+        else {
+          mortgageTermBorder.classList.remove('border-red');
+          mortgageTermValue.classList.remove('bg-red',"text-white");
+          mortgageTermError.textContent = '';
+        }
+        if (isNaN(interestRate)) {
+          interestRateBorder.classList.add('border-red');
+          interestRateValue.classList.add('bg-red',"text-white");
+          interestRateError.textContent = 'This field is required';
+        }
+        else {
+          interestRateBorder.classList.remove('border-red');
+          interestRateValue.classList.remove('bg-red',"text-white");
+          interestRateError.textContent = '';
+        }
+        if (!mortgageType) {
+          mortgageTypeError.textContent = 'This field is required';
+        }
+        else {
+          mortgageTypeError.textContent = '';
+        }
+      }
+      else {
+
+        mortgageAmountBorder.classList.remove('border-red');
+        mortgageAmountValue.classList.remove('bg-red',"text-white");
+        mortgageAmountError.textContent = '';
+
+        mortgageTermBorder.classList.remove('border-red');
+        mortgageTermValue.classList.remove('bg-red',"text-white");
+        mortgageTermError.textContent = '';
+
+        interestRateBorder.classList.remove('border-red');
+        interestRateValue.classList.remove('bg-red',"text-white");
+        interestRateError.textContent = '';
+
+        mortgageTypeError.textContent = '';
+
+        let monthlyRepayment;
+
+        if (mortgageType === 'repayment') {
+          const monthlyInterestRate = interestRate / 12;
+          const numberOfPayments = mortgageTerm * 12;
+          monthlyRepayment = (mortgageAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -numberOfPayments));
+        } else if (mortgageType === 'interest-only') {
+          monthlyRepayment = (mortgageAmount * interestRate) / 12;
+        }
+        
+        resultsDiv.innerHTML = `
+          <div class="flex flex-col items-left justify-left h-full text-left">
+            <h1 class="font-bold text-lg pb-2">Your results</h1>
+            <p class="font-bold text-sm text-slate-700">Your results are shown below based on the information you provided. To adjust the results, edit the form and click “calculate repayments” again.</p>
+            <div class="bg-[hsl(202,75%,10%)] p-4 rounded-md mt-8 border-t-2 border-t-lime pt-4 text-slate-700">
+              <div class="mt-2 ml-3">
+                <h2 class="font-bold">Your monthly repayments</h2>
+                <p class="font-bold text-[40px] text-lime">£${monthlyRepayment.toFixed(2)}</p>
+                <br>
+                <hr class="border-t-2 border-t-slate-700">
+              </div>
+
+              <div class="mt-6 mb-2 ml-3">
+                <h2 class="font-bold">Total you'll repay over the term</h2>
+                <p class="font-bold text-lg text-white">£${(monthlyRepayment * mortgageTerm * 12).toFixed(2)}</p>
+              </div>
+            </div>
+          </div>
+        `;
+        }
+    });
+  </script>
+</html>
