@@ -6,25 +6,46 @@
 
   <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
 
-  <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
-        extend: {
+        extend: { 
           colors: {
-            "lime": "hsl(61,70%,52%)",
-            "red": "hsl(4,69%,50%)",
-            "white": "hsl(0,0%,100%)",
-            "slate-100": "hsl(202,86%,94%)",
-            "slate-300": "hsl(203,41%,72%)",
-            "slate-500": "hsl(200,26%,54%)",
-            "slate-700": "hsl(200,24%,40%)",
-            "slate-900": "hsl(202,55%,16%)"
+            lime: "hsl(61, 70%, 52%)",
+            red: "hsl(4, 69%, 50%)",
+            slate: {
+              100: "hsl(202, 86%, 94%)",
+              300: "hsl(203, 41%, 72%)",
+              500: "hsl(200, 26%, 54%)",
+              700: "hsl(200, 24%, 40%)",
+              900: "hsl(202, 55%, 16%)",
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', "sans-serif"],
           }
         }
       }
     }
   </script>
+
+  <style>
+    @font-face {
+          font-family: "Plus Jakarta Sans";
+          src: url("assets/fonts/PlusJakartaSans-VariableFont_wght.woff2") format("woff2");
+          font-weight: 200 800;
+          font-display: swap;
+        }
+    body {
+          font-family: "Plus Jakarta Sans", sans-serif;
+          font-weight: 400;
+        }
+
+        h1 {
+          font-weight: 700;
+        }
+  </style>
   
   <title>Frontend Mentor | Mortgage repayment calculator</title>
 
@@ -77,28 +98,27 @@
                 </div>
             </div>
 
-          <div class="flex flex-col mt-4">
-            <label class="text-slate-700 font-bold mb-2" for="mortgage-type">Mortgage Type</label>
-            <div class="border-2 border-slate-500 rounded-md p-2 mb-2 font-bold text-slate-900 hover:border-lime focus-within:border-lime focus-within:bg-[hsl(61,70%,92%)]">
-              <input type="radio" id="mortgage-type-1" name="mortgage-type" value="repayment"><span class="ml-3">Repayment</span>
-            </div>
-            <div class="border-2 border-slate-500 rounded-md p-2 font-bold text-slate-900 hover:border-lime focus-within:border-lime focus-within:bg-[hsl(61,70%,92%)]">
-              <input type="radio" id="mortgage-type-2" name="mortgage-type" value="interest-only"><span class="ml-3">Interest Only</span>
-            </div>
-          </div>
+          <fieldset class="mt-4">
+            <legend class="text-slate-700 font-bold mb-2">Mortgage Type</legend>
+            <label class="flex items-center gap-3 border-2 border-slate-500 rounded-md p-2 mb-2 font-bold text-slate-900 cursor-pointer hover:border-lime has-[:checked]:border-lime has-[:checked]:bg-[hsl(61,70%,92%)]">
+              <input type="radio" name="mortgage-type" value="repayment"> Repayment
+            </label>
+            <label class="flex items-center gap-3 border-2 border-slate-500 rounded-md p-2 font-bold text-slate-900 cursor-pointer hover:border-lime has-[:checked]:border-lime has-[:checked]:bg-[hsl(61,70%,92%)]">
+              <input type="radio" name="mortgage-type" value="interest-only"> Interest Only
+            </label>
+          </fieldset>
           <div class="flex flex-col text-red text-sm mt-1 font-bold" id="mortgage-type-error"></div>
 
           <button class="bg-lime font-bold text-slate-900 rounded-[50px] w-[80%] justify-center items-center gap-2 flex p-4 mt-8" type="button" id="calculate-button"><img class="mr-2" src="assets/images/icon-calculator.svg" alt="icon-calculator">Calculate Repayments</button>
           </form>
       </div>
 
-
       <!-- RIGHT COLUMN -->
-      <div class="grid bg-slate-900 text-[hsl(202,86%,94%)] h-full p-5 md:rounded-r-[20px] md:rounded-bl-[80px]">
+      <div class="grid bg-slate-900 text-slate-300 h-full p-5 md:rounded-r-[20px] md:rounded-bl-[80px]">
         <div class="flex flex-col items-center justify-center h-full text-center p-5" id="results">
           <img src="assets/images/illustration-empty.svg" alt="illustration-empty" width="150px">
-          <h1 class="font-bold text-lg pb-2">Results shown here</h1>
-          <p class="font-bold text-sm text-[hsl(200,24%,40%)]">Complete the form and click “calculate repayments” to see what your monthly repayments would be.</p>
+          <h1 class="font-bold text-lg pb-2 text-white">Results shown here</h1>
+          <p class="font-bold text-sm text-slate-300">Complete the form and click “calculate repayments” to see what your monthly repayments would be.</p>
         </div>
       </div>
     </div>

@@ -21,22 +21,7 @@
 
     const mortgageTypeError = document.getElementById('mortgage-type-error');
 
-
-    document.addEventListener('DOMContentLoaded', () => {
-    const inputs = document.querySelectorAll('input[name="mortgage-type"]');
-
-    inputs.forEach(input => {
-      input.addEventListener('change', () => {
-        inputs.forEach(i => i.parentElement.classList.remove('border-lime', 'bg-[hsl(61,70%,92%)]'));
-
-        if (input.checked) {
-          input.parentElement.classList.add('border-lime', 'bg-[hsl(61,70%,92%)]');
-        }
-        });
-      });
-    });
-
-
+    
     clearButton.addEventListener('click', () => {
       mortgageAmountInput.value = '';
       mortgageTermInput.value = '';
@@ -63,8 +48,8 @@
 
       resultsDiv.innerHTML = `
         <img src="assets/images/illustration-empty.svg" alt="illustration-empty" width="150px">
-        <h1 class="font-bold text-lg pb-2">Results shown here</h1>
-        <p class="font-bold text-sm text-[hsl(200,24%,40%)]">Complete the form and click “calculate repayments” to see what your monthly repayments would be.</p>
+        <h1 class="font-bold text-lg pb-2 text-white">Results shown here</h1>
+        <p class="font-bold text-sm text-slate-300">Complete the form and click “calculate repayments” to see what your monthly repayments would be.</p>
       `;
     });
 
@@ -138,33 +123,43 @@
         mortgageTypeError.textContent = '';
 
         let monthlyRepayment;
+        
+        if (mortgageAmount <= 0 || mortgageTerm <= 0) {
 
-        if (mortgageType === 'repayment') {
+          monthlyRepayment = 0;
+
+        } else if (mortgageType === 'repayment') {
+
           const monthlyInterestRate = interestRate / 12;
+
           const numberOfPayments = mortgageTerm * 12;
-          monthlyRepayment = (mortgageAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -numberOfPayments));
+
+          monthlyRepayment = monthlyInterestRate === 0 ? mortgageAmount / numberOfPayments : (mortgageAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -numberOfPayments));
+
         } else if (mortgageType === 'interest-only') {
+
           monthlyRepayment = (mortgageAmount * interestRate) / 12;
+
         }
         
         resultsDiv.innerHTML = `
-          <div class="flex flex-col items-left justify-left h-full text-left">
+          <div class="flex flex-col items-left justify-left h-full text-left aria-live="polite"">
             <h1 class="font-bold text-lg pb-2">Your results</h1>
-            <p class="font-bold text-sm text-slate-700">Your results are shown below based on the information you provided. To adjust the results, edit the form and click “calculate repayments” again.</p>
-            <div class="bg-[hsl(202,75%,10%)] p-4 rounded-md mt-8 border-t-2 border-t-lime pt-4 text-slate-700">
+            <p class="font-bold text-sm text-slate-300">Your results are shown below based on the information you provided. To adjust the results, edit the form and click “calculate repayments” again.</p>
+            <div class="bg-[hsl(202,75%,10%)] p-4 rounded-md mt-8 border-t-2 border-t-lime pt-4 text-slate-300">
               <div class="mt-2 ml-3">
                 <h2 class="font-bold">Your monthly repayments</h2>
-                <p class="font-bold text-[40px] text-lime">£${monthlyRepayment.toFixed(2)}</p>
+                <p class="font-bold text-[40px] text-lime">${new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(monthlyRepayment)}</p>
                 <br>
-                <hr class="border-t-2 border-t-slate-700">
+                <hr class="border-t-2 border-t-slate-300">
               </div>
 
               <div class="mt-6 mb-2 ml-3">
                 <h2 class="font-bold">Total you'll repay over the term</h2>
-                <p class="font-bold text-lg text-white">£${(monthlyRepayment * mortgageTerm * 12).toFixed(2)}</p>
+                <p class="font-bold text-lg text-white">${new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(monthlyRepayment * mortgageTerm * 12)}</p>
               </div>
             </div>
           </div>
         `;
         }
-    });
+    });  
