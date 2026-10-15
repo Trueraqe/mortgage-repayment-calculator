@@ -21,7 +21,7 @@
 
     const mortgageTypeError = document.getElementById('mortgage-type-error');
 
-    
+
     clearButton.addEventListener('click', () => {
       mortgageAmountInput.value = '';
       mortgageTermInput.value = '';
@@ -144,7 +144,7 @@
         
         resultsDiv.innerHTML = `
           <div class="flex flex-col items-left justify-left h-full text-left aria-live="polite"">
-            <h1 class="font-bold text-lg pb-2">Your results</h1>
+            <h1 class="font-bold text-lg pb-2 text-white">Your results</h1>
             <p class="font-bold text-sm text-slate-300">Your results are shown below based on the information you provided. To adjust the results, edit the form and click “calculate repayments” again.</p>
             <div class="bg-[hsl(202,75%,10%)] p-4 rounded-md mt-8 border-t-2 border-t-lime pt-4 text-slate-300">
               <div class="mt-2 ml-3">
